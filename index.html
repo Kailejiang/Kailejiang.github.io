@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaile JIANG | Research</title>
+  
+  <!-- Tailwind CSS v3 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#4080FF',
+            accent: '#0FC6C2',
+            dark: '#1D2129',
+            light: '#F2F3F5',
+            green: '#2E7D32',
+          },
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <!-- Custom Utilities -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-balance {
+        text-wrap: balance;
+      }
+      .transition-navbar {
+        transition: background-color 0.3s, box-shadow 0.3s, padding 0.3s;
+      }
+      .hover-scale {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+      .hover-scale:hover {
+        transform: scale(1.02);
+      }
+      .icon-hover {
+        transition: all 0.3s ease;
+      }
+      .icon-container {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .post-transition {
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+    }
+  </style>
+  
+  <style>
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Animation for fade-in elements */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+      opacity: 0;
+    }
+    
+    /* Staggered animation for elements */
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    
+    /* Icon animations */
+    .social-icon {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .social-icon:hover {
+      transform: translateY(-3px) scale(1.1);
+    }
+    
+    .feature-icon {
+      transition: all 0.3s ease;
+    }
+    .feature-icon:hover {
+      transform: rotate(5deg) scale(1.1);
+    }
+    
+    .nav-icon {
+      transition: all 0.2s ease;
+    }
+    .nav-icon:hover {
+      transform: scale(1.2);
+    }
+    
+    /* Post slider styles */
+    .post-slide {
+      display: none;
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    
+    .post-slide.active {
+      display: block;
+      opacity: 1;
+      transform: translateX(0);
+      animation: slideIn 0.5s ease-out forwards;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .post-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #ddd;
+      transition: all 0.3s ease;
+    }
+    
+    .post-indicator.active {
+      background-color: #165DFF;
+      width: 30px;
+      border-radius: 5px;
+    }
+  </style>
+  <style>
+  /* Hover effect: bright color + underline (like standard links) */
+  a[href*="orcid.org"]:hover {
+    color: #0066cc; /* Bright blue (adjust to match your theme) */
+    text-decoration: underline; /* Adds underline on hover */
+  }
+</style>
+</head>
+<body class="font-inter bg-light text-dark antialiased">
+  <!-- Navigation Bar -->
+  <header id="navbar" class="fixed w-full z-50 transition-navbar bg-transparent">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center py-4">
+        <a href="#" class="text-2xl font-bold text-white hover:text-primary transition-colors duration-300 flex items-center">
+          <i class="fa fa-flask mr-2 text-primary"></i>
+          Jiang's Machine Learning Research Space
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex space-x-8">
+          <a href="#about" class="text-white hover:text-primary transition-colors duration-300 flex items-center">
+            <i class="fa fa-user-circle-o mr-2 nav-icon"></i> About
+          </a>
+          <a href="#research" class="text-white hover:text-primary transition-colors duration-300 flex items-center">
+            <i class="fa fa-search mr-2 nav-icon"></i> Research
+          </a>
+          <a href="#publications" class="text-white hover:text-primary transition-colors duration-300 flex items-center">
+            <i class="fa fa-book mr-2 nav-icon"></i> Publications
+          </a>
+          <a href="#posts" class="text-white hover:text-primary transition-colors duration-300 flex items-center">
+            <i class="fa fa-comment mr-2 nav-icon"></i> Posts
+          </a>
+        </nav>
+        
+        <!-- Mobile Navigation Toggle -->
+        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+          <i class="fa fa-bars text-2xl nav-icon"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg rounded-b-lg mx-4">
+      <div class="px-4 py-3 space-y-3">
+        <a href="#about" class="block py-2 text-dark hover:text-primary transition-colors duration-300 flex items-center">
+          <i class="fa fa-user-circle-o mr-2 w-5 text-center"></i> About
+        </a>
+        <a href="#research" class="block py-2 text-dark hover:text-primary transition-colors duration-300 flex items-center">
+          <i class="fa fa-search mr-2 w-5 text-center"></i> Research
+        </a>
+        <a href="#publications" class="block py-2 text-dark hover:text-primary transition-colors duration-300 flex items-center">
+          <i class="fa fa-book mr-2 w-5 text-center"></i> Publications
+        </a>
+        <a href="#posts" class="block py-2 text-dark hover:text-primary transition-colors duration-300 flex items-center">
+          <i class="fa fa-comment mr-2 w-5 text-center"></i> Posts
+        </a>
+      </div>
+    </div>
+  </header>
+  <!-- Hero Section -->
+  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src="https://picsum.photos/id/1025/1920/1080" alt="Academic library background" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-dark/70"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      <div class="animate-fade-in">
+        <div class="text-primary text-5xl mb-6">
+          <i class="fa fa-cubes"></i>
+        </div>
+        <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold text-white leading-tight mb-4">
+          AI for Science
+        </h1>
+        <h2 class="text-[clamp(1.25rem,3vw,2rem)] text-white/90 mb-6">
+          Machine Learning & Physical Chemistry
+        </h2>
+        <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/80 max-w-3xl mx-auto mb-8 text-balance">
+          Physical Priors, Transfer Learning, and Interpretable ML models Researcher
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="#about" class="px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center">
+            <i class="fa fa-arrow-down mr-2"></i> Learn More
+          </a>
+          <a href="#publications" class="px-6 py-3 bg-transparent border-2 border-white text-white hover:bg-white/10 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center">
+            <i class="fa fa-file-text-o mr-2"></i> View Publications
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <a href="#about" class="text-white/70 hover:text-white transition-colors duration-300">
+        <i class="fa fa-chevron-down text-2xl"></i>
+      </a>
+    </div>
+  </section>
+  <!-- About Section -->
+  <section id="about" class="py-20 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">About Me</h2>
+        <div class="w-20 h-1 bg-primary mx-auto"></div>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-10 items-center">
+        <div class="md:col-span-1">
+          <div class="relative rounded-lg overflow-hidden shadow-xl hover-scale">
+            <img src="https://picsum.photos/id/1005/600/800" alt="JIANG portrait" class="w-full h-auto">
+          </div>
+          <div class="mt-8 bg-light rounded-lg p-6 shadow-md">
+  	    <h3 class="font-semibold text-lg mb-4 flex items-center">
+	  	<!-- ORCID SVG Icon -->
+		  <svg version="1.1" class="zBX45UnkD0EwVZXMfSWr sAc9LHReqhSFVRS3UVnb mr-2" role="img" x="0" y="0" viewBox="0 0 256 256" aria-hidden="true" style="width: 24px; height: 24px;">
+		    <path d="M256 128c0 70.7-57.3 128-128 128S0 198.7 0 128 57.3 0 128 0s128 57.3 128 128z" fill="#a6ce39"></path>
+		    <path fill="#fff" d="M86.3 186.2H70.9V79.1h15.4v107.1zM108.9 79.1h41.6c39.6 0 57 28.3 57 53.6 0 27.5-21.5 53.6-56.8 53.6h-41.8V79.1zm15.4 93.3h24.5c34.9 0 42.9-26.5 42.9-39.7C191.7 111.2 178 93 148 93h-23.7v79.4zM88.7 56.8c0 5.5-4.5 10.1-10.1 10.1s-10.1-4.6-10.1-10.1c0-5.6 4.5-10.1 10.1-10.1s10.1 4.6 10.1 10.1z"></path>
+		  </svg>
+  
+		  <!-- Label and ORCID Link Container -->
+		  <div class="MlmGj9MVWXAzhC52y8pb Q3_rGF9HxM0VeJ3JMzdW">
+		    <span class="xDWVNZLdDCfm5tJe9hl7"></span>
+		    <a class="cLFeeoiOBdaPjhLSO2GQ W7V5aJOMXNr7jlvGdWRz NarVxhcZDxK8fqysok6T" 
+		       href="https://orcid.org/0009-0005-1105-990X" 
+		       target="_blank" 
+		       rel="noopener noreferrer">
+		      0009-0005-1105-990X
+		    </a>
+		  </div>
+		</h3>
+	    <ul class="space-y-3">
+	      <!-- First email (separated into a single row) -->
+	      <li class="flex items-center">
+	        <i class="fa fa-envelope-o text-primary mr-3 text-lg icon-hover"></i>
+	        <a href="mailto:23013082008@stu.hqu.edu.cn" class="hover:text-primary transition-colors">23013082008@stu.hqu.edu.cn</a>
+	      </li>
+	      <!-- Second email (separated into another row) -->
+	      <li class="flex items-center">
+	        <i class="w-4 mr-3"></i>
+	        <a href="mailto:j791639001@gmail.com" class="hover:text-primary transition-colors">j791639001@gmail.com</a>
+	      </li>
+	      <!-- Light divider line between email and location sections -->
+	      <li class="border-t border-light-gray my-2"></li>
+	      <!-- Location section -->
+	      <li class="flex items-start">
+	        <i class="fa fa-map-marker text-primary mr-3 mt-1 text-lg icon-hover"></i>
+	        <span>Huaqiao University Quanzhou Campus, Room 802, SHIliangqiao Technology Building, Quanzhou, Fujian Province, China PRC</span>
+	      </li>
+	    </ul>
+       
+            <div class="mt-6 pt-6 border-t border-gray-200">
+              <h3 class="font-semibold text-lg mb-4 flex items-center">
+                <i class="fa fa-share-alt text-primary mr-2 text-lg"></i> Social
+              </h3>
+              <div class="flex space-x-4">
+                <a href="#" class="social-icon w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300">
+                  <i class="fa fa-twitter text-xl"></i>
+                </a>
+                <a href="#" class="social-icon w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300">
+                  <i class="fa fa-linkedin text-xl"></i>
+                </a>
+                <a href="#" class="social-icon w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300">
+                  <i class="fa fa-google text-xl"></i>
+                </a>
+                <a href="#" class="social-icon w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300">
+                  <i class="fa fa-github text-xl"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="md:col-span-2">
+          <div class="animate-fade-in">
+            <h3 class="text-2xl font-bold mb-6">Biography</h3>
+            <p class="text-gray-700 mb-6 leading-relaxed">
+              I am a master's student specializing in <strong>the intersection of machine learning and physical chemistry</strong>. My research primarily focuses on developing novel machine learning models that go beyond traditional approaches <strong>to bridge the gap between machine learning model and physical chemistry principles</strong>.Using interdisciplinary methods to enhance the interpretability of machine learning models is also one of the key focuses of my present and future research.
+            </p>
+            <p class="text-gray-700 mb-6 leading-relaxed">
+              The research results include CLRNet, a machine learning potential energy surface (PES) fitting model that can effectively accommodate high-energy structures. In addition, I also explored a method combining transfer learning with causal analysis to conduct interpretability analysis on machine learning models.
+            </p>
+            <p class="text-gray-700 mb-6 leading-relaxed">
+              My work has been published in renowned journals such as <strong>J. Chem. Inf. Model.</strong> and <strong>J. Chem. Phys.</strong> I have also received several achievements, including <strong>a national scholarship</strong> and <strong>a national invention patent</strong>.
+            </p>
+            <p class="text-gray-700 mb-6 leading-relaxed">
+              Before 2023, my study focus was on deep learning and computer vision and their applications in medical devices. I obtained my bachelor's degree in Optical and Electronic Information Engineering in 2023, with a thesis entitled "Surgical Instrument Recognition Based on Improved YOLO."
+            </p>
+            
+            <div class="grid sm:grid-cols-2 gap-6 mt-10">
+              <div class="bg-light rounded-lg p-6 shadow-sm hover-scale">
+                <div class="flex items-center mb-4">
+                  <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-4 feature-icon">
+                    <i class="fa fa-graduation-cap text-2xl"></i>
+                  </div>
+                  <h4 class="text-xl font-semibold">Education</h4>
+                </div>
+                <ul class="space-y-4">
+                  <li>
+                    <div class="font-semibold">Currently seeking a Ph.D. position</div>
+                    <div class="text-sm text-gray-500">Focus on the Intersection of Physical Chemistry and Machine Learning</div>
+                  </li>
+                  <li>
+                    <div class="font-semibold">M.S. Optical Engineering</div>
+                    <div class="text-sm text-gray-500">Huaqiao University (2026)</div>
+                  </li>
+                  <li>
+                    <div class="font-semibold">B.S. Optical and Electronic Information Engineering</div>
+                    <div class="text-sm text-gray-500">Huaqiao University (2023)</div>
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="bg-light rounded-lg p-6 shadow-sm hover-scale">
+                <div class="flex items-center mb-4">
+                  <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-4 feature-icon">
+                    <i class="fa fa-briefcase text-2xl"></i>
+                  </div>
+                  <h4 class="text-xl font-semibold">Research Directions</h4>
+                </div>
+                <ul class="space-y-4">
+                  <li>
+                    <div class="font-semibold">Physical Chemistry and Machine Learning</div>
+                    <div class="text-sm text-gray-500">Huaqiao University (2023-Present)</div>
+                  </li>
+                  <li>
+                    <div class="font-semibold">Modern Optical Applications and Optical Design</div>
+                    <div class="text-sm text-gray-500">Huaqiao University (2022-2023)</div>
+                  </li>
+                  <li>
+                    <div class="font-semibold">Computer Vision and Deep Learning</div>
+                    <div class="text-sm text-gray-500">Huaqiao University (2021-2023)</div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Research Section -->
+  <section id="research" class="py-20 bg-light">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">Research Interests</h2>
+        <div class="w-20 h-1 bg-primary mx-auto"></div>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-lg shadow-lg p-8 hover-scale">
+          <h3 class="text-xl font-bold mb-4 text-center">Physical Priors and Transfer Learning</h3>
+          <p class="text-gray-700 mb-6">
+            Exploring physical priors that can align with the principles of machine learning; and leverage transfer learning to connect cross-domain materials data
+          </p>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-start">
+              <i class="fa fa-check-circle text-primary mt-1 mr-2 icon-hover"></i>
+              <span>Physical priors embedding</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-check-circle text-primary mt-1 mr-2 icon-hover"></i>
+              <span>Transfer learning across domains</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-check-circle text-primary mt-1 mr-2 icon-hover"></i>
+              <span>Interpolation and extrapolation in the data space</span>
+            </li>
+          </ul>
+          <a href="https://doi.org/10.1021/acs.jcim.4c01473" class="inline-flex items-center text-primary hover:text-secondary transition-colors duration-300">
+            Learn more about my Transfer Learning work <i class="fa fa-arrow-right ml-2 icon-hover"></i>
+          </a>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-8 hover-scale">
+          <h3 class="text-xl font-bold mb-4 text-center">Machine Learning</h3>
+          <p class="text-gray-700 mb-6">
+            Developing novel machine learning algorithms that are more science-driven, interpretable, and robust, particularly in the context of sparse and noisy data.
+          </p>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-start">
+              <i class="fa fa-check-circle text-primary mt-1 mr-2 icon-hover"></i>
+              <span>Science-driven AI systems</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-check-circle text-primary mt-1 mr-2 icon-hover"></i>
+              <span>Interpretable ML models</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-check-circle text-primary mt-1 mr-2 icon-hover"></i>
+              <span>Active and reinforcement learning for PES tasks</span>
+            </li>
+          </ul>
+          <a href="https://doi.org/10.1063/5.0276306" class="inline-flex items-center text-primary hover:text-secondary transition-colors duration-300">
+            Learn more about my ML work <i class="fa fa-arrow-right ml-2 icon-hover"></i>
+          </a>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-8 hover-scale">
+          <h3 class="text-xl font-bold mb-4 text-center">Application in Materials</h3>
+          <p class="text-gray-700 mb-6">
+            Investigating how materials science interact with AI systems, and building connections which improve collaboration between theoretical models and practical applications.
+          </p>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-start">
+              <i class="fa fa-check-circle text-primary mt-1 mr-2 icon-hover"></i>
+              <span>Effective descriptors design</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-check-circle text-primary mt-1 mr-2 icon-hover"></i>
+              <span>Multimodal materials processing for end-users</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-check-circle text-primary mt-1 mr-2 icon-hover"></i>
+              <span>Inverse material design</span>
+            </li>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Publications Section -->
+  <section id="publications" class="py-20 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">Selected Publications</h2>
+        <div class="w-20 h-1 bg-primary mx-auto"></div>
+      </div>
+      
+      <div class="flex justify-center mb-10">
+        <div class="inline-flex bg-light rounded-lg p-1">
+          <button class="publication-filter px-6 py-2 rounded-md bg-primary text-white transition-colors duration-300" data-filter="all">
+            All
+          </button>
+          <button class="publication-filter px-6 py-2 rounded-md text-dark hover:bg-primary/10 transition-colors duration-300" data-filter="Machine Learning">
+            Machine Learning
+          </button>
+          <button class="publication-filter px-6 py-2 rounded-md text-dark hover:bg-primary/10 transition-colors duration-300" data-filter="Molecular Physics">
+            Molecular Physics
+          </button>
+          <button class="publication-filter px-6 py-2 rounded-md text-dark hover:bg-primary/10 transition-colors duration-300" data-filter="Computer Vision">
+            Computer Vision
+          </button>
+        </div>
+      </div>
+      
+      <div class="space-y-8">
+        <div class="publication-item conference bg-light rounded-lg p-6 shadow-sm hover-scale" data-category="Machine Learning">
+          <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+            <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-sm rounded-full mb-2 md:mb-0">
+              JCP 2025
+            </span>
+            <span class="text-gray-500">
+              July 2025
+            </span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">
+A Scalable Machine Learning Multi-Local Regression Framework for Potential Energy Surface Fitting Across Diverse Chemical Landscapes</h3>
+          <p class="text-gray-700 mb-4">
+            Jiang, K.-L.; Wang, H.-Q.; Li, H.-F.; Wen, Z.-X.
+          </p>
+          <p class="text-gray-700 mb-4">
+            Journal of Chemical Physics, American Institute of Physics
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a href="#" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors duration-300 inline-flex items-center">
+              <i class="fa fa-file-pdf-o mr-2"></i> PDF
+            </a>
+            <a href="https://doi.org/10.1063/5.0276306" class="px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-dark rounded-lg transition-colors duration-300 inline-flex items-center">
+              <i class="fa fa-external-link mr-2"></i> DOI
+            </a>
+          </div>
+        </div>
+        
+        <div class="publication-item journal bg-light rounded-lg p-6 shadow-sm hover-scale" data-category="Machine Learning">
+          <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+            <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-sm rounded-full mb-2 md:mb-0">
+              JCIM 2025
+            </span>
+            <span class="text-gray-500">
+              January 2025
+            </span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">SchNet_IIA: Potential Energy Surface Fitting by Interatomic Interactions Attention Based on Transfer Learning Analysis</h3>
+          <p class="text-gray-700 mb-4">
+            Jiang, K.-L.; Wang, H.-Q.; Li, H.-F.; Pan, S.-W.; Zheng, H.; Zhang, Y.-H.; Zhang, J.-M.
+          </p>
+          <p class="text-gray-700 mb-4">
+            Journal of Chemical Information and Modeling, American Chemical Society
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a href="#" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors duration-300 inline-flex items-center">
+              <i class="fa fa-file-pdf-o mr-2"></i> PDF
+            </a>
+            <a href="https://doi.org/10.1021/acs.jcim.4c01473" class="px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-dark rounded-lg transition-colors duration-300 inline-flex items-center">
+              <i class="fa fa-external-link mr-2"></i> DOI
+            </a>
+          </div>
+        </div>
+        
+        <div class="publication-item conference bg-light rounded-lg p-6 shadow-sm hover-scale" data-category="Molecular Physics">
+          <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+            <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-sm rounded-full mb-2 md:mb-0">
+              PCCP 2024
+            </span>
+            <span class="text-gray-500">
+              October 2024
+            </span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Discovering SnB7−: A Half-Sandwich Structure with Double Aromaticity and Pathways to Molecular Machines</h3>
+          <p class="text-gray-700 mb-4">
+            Zhang, Y.-H.; Wang, H.-Q.; Li, H.-F.; Zhang, J.-M.; Zheng, H.; Jiang, K.-L.; Zhang, B.; Wu, W.-H.
+          </p>
+          <p class="text-gray-700 mb-4">
+            Physical Chemistry Chemical Physics, Royal Society of Chemistry
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a href="https://doi.org/10.1039/D4CP03590A" class="px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-dark rounded-lg transition-colors duration-300 inline-flex items-center">
+              <i class="fa fa-external-link mr-2"></i> DOI
+            </a>
+          </div>
+        </div>
+        
+        <div class="publication-item book bg-light rounded-lg p-6 shadow-sm hover-scale" data-category="Molecular Physics">
+          <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+            <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-sm rounded-full mb-2 md:mb-0">
+              JPCA 2024
+            </span>
+            <span class="text-gray-500">
+              July 2024
+            </span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Probing the Structural and Electronic Properties of the Anionic and Neutral Tellurium-Doped Boron Clusters TeBnq (n = 3-16, q = 0, −1)</h3>
+          <p class="text-gray-700 mb-4">
+            Zhang, Y.-H.; Wang, H.-Q.; Li, H.-F.; Zeng, J.-K.; Zheng, H.; Mei, X.-J.; Zhang, J.-M.; Jiang, K.-L.; Zhang, B.; Wu, W.-H.
+          </p>
+          <p class="text-gray-700 mb-4">
+            Journal of Physical Chemistry A, American Chemical Society
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a href="https://doi.org/10.1021/acs.jpca.4c00907" class="px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-dark rounded-lg transition-colors duration-300 inline-flex items-center">
+              <i class="fa fa-external-link mr-2"></i> DOI
+            </a>
+          </div>
+        </div>
+        
+        <div class="publication-item conference bg-light rounded-lg p-6 shadow-sm hover-scale" data-category="Molecular Physics">
+          <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+            <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-sm rounded-full mb-2 md:mb-0">
+              JCC 2024
+            </span>
+            <span class="text-gray-500">
+              August 2024
+            </span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">The High Electron Mobility for Spin-Down Channel of Two-Dimensional Spin-Polarized Half-Metallic Ferromagnetic EusI2N4 Monolayer</h3>
+          <p class="text-gray-700 mb-4">
+            Zhang, B.; Wang, H.-Q.; Li, H.-F.; Zheng, H.; Zhang, Y.-H.; Mei, X.-J.; Zhang, J.-M.; Jiang, K.-L.; Jiang, Q.-W.
+          </p>
+          <p class="text-gray-700 mb-4">
+            Journal of Computational Chemistry, John Wiley & Sons, Inc.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a href="https://doi.org/10.1002/jcc.27474" class="px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-dark rounded-lg transition-colors duration-300 inline-flex items-center">
+              <i class="fa fa-external-link mr-2"></i> DOI
+            </a>
+          </div>
+        </div>
+        
+        <div class="publication-item journal bg-light rounded-lg p-6 shadow-sm hover-scale" data-category="Computer Vision">
+          <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+            <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-sm rounded-full mb-2 md:mb-0">
+              APP 2023
+            </span>
+            <span class="text-gray-500">
+              October 2023
+            </span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Surgical Instrument Recognition Based on Improved YOLOv5</h3>
+          <p class="text-gray-700 mb-4">
+            Jiang, K.; Pan, S.; Yang, L.; Yu, J.; Lin, Y.; Wang, H.
+          </p>
+          <p class="text-gray-700 mb-4">
+            Applied Sciences, Multidisciplinary Digital Publishing Institute
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a href="#" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors duration-300 inline-flex items-center">
+              <i class="fa fa-file-pdf-o mr-2"></i> PDF
+            </a>
+            <a href="https://doi.org/10.3390/app132111709" class="px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-dark rounded-lg transition-colors duration-300 inline-flex items-center">
+              <i class="fa fa-external-link mr-2"></i> DOI
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-12 text-center">
+        <a href="https://orcid.org/0009-0005-1105-990X" class="inline-flex items-center px-8 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+          View All Publications <i class="fa fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- Posts Section -->
+  <section id="posts" class="py-20 bg-light">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">Recent Posts</h2>
+        <div class="w-20 h-1 bg-primary mx-auto"></div>
+      </div>
+      
+      <div class="max-w-4xl mx-auto">
+        <!-- Post Slider Container -->
+        <div class="post-slider relative bg-white rounded-lg shadow-xl overflow-hidden">
+          <!-- Post 1 -->
+          <div class="post-slide active p-8 md:p-10">
+            <div class="flex items-center text-sm text-gray-500 mb-6">
+              <span class="flex items-center mr-6">
+                <i class="fa fa-calendar mr-2 text-primary"></i> June 15, 2025
+              </span>
+              <span class="flex items-center">
+                <i class="fa fa-tag mr-2 text-primary"></i> Machine Learning
+              </span>
+            </div>
+            
+            <h3 class="text-2xl md:text-3xl font-bold mb-4">Recent Advances in Transfer Learning for Molecular Properties Prediction</h3>
+            
+            <div class="mb-6">
+              <img src="https://picsum.photos/id/180/800/400" alt="Molecular structures visualization" class="w-full h-64 object-cover rounded-lg shadow-md">
+            </div>
+            
+            <p class="text-gray-700 mb-6 leading-relaxed">
+              In recent months, I've been exploring how transfer learning techniques can be applied to molecular properties prediction. Traditional machine learning models often struggle with limited data in specific chemical domains, but by leveraging pre-trained models on large datasets, we can significantly improve performance on smaller, more specialized datasets.
+            </p>
+            
+            <p class="text-gray-700 mb-8 leading-relaxed">
+              My latest work demonstrates that a model pre-trained on quantum mechanical data can be fine-tuned to predict reaction barriers with much higher accuracy than models trained from scratch. This approach not only saves computational resources but also provides better generalization across chemical spaces.
+            </p>
+            
+            <a href="#" class="inline-flex items-center text-primary hover:text-secondary font-medium transition-colors duration-300">
+              Read more <i class="fa fa-long-arrow-right ml-2"></i>
+            </a>
+          </div>
+          
+          <!-- Post 2 -->
+          <div class="post-slide p-8 md:p-10">
+            <div class="flex items-center text-sm text-gray-500 mb-6">
+              <span class="flex items-center mr-6">
+                <i class="fa fa-calendar mr-2 text-primary"></i> May 22, 2025
+              </span>
+              <span class="flex items-center">
+                <i class="fa fa-tag mr-2 text-primary"></i> Research Methods
+              </span>
+            </div>
+            
+            <h3 class="text-2xl md:text-3xl font-bold mb-4">Designing Interpretable ML Models for Chemical Insights</h3>
+            
+            <div class="mb-6">
+              <img src="https://picsum.photos/id/48/800/400" alt="Feature importance visualization" class="w-full h-64 object-cover rounded-lg shadow-md">
+            </div>
+            
+            <p class="text-gray-700 mb-6 leading-relaxed">
+              One of the biggest challenges in applying machine learning to chemistry is the lack of interpretability. Black-box models might achieve high accuracy, but they fail to provide insights that can advance chemical understanding.
+            </p>
+            
+            <p class="text-gray-700 mb-8 leading-relaxed">
+              In my recent work, I've been developing hybrid models that combine physical priors with neural networks. These models not only maintain high predictive performance but also allow us to extract meaningful chemical insights. For example, by analyzing attention weights in our model, we can identify which atomic interactions are most critical for a particular reaction property.
+            </p>
+            
+            <a href="#" class="inline-flex items-center text-primary hover:text-secondary font-medium transition-colors duration-300">
+              Read more <i class="fa fa-long-arrow-right ml-2"></i>
+            </a>
+          </div>
+          
+          <!-- Post 3 -->
+          <div class="post-slide p-8 md:p-10">
+            <div class="flex items-center text-sm text-gray-500 mb-6">
+              <span class="flex items-center mr-6">
+                <i class="fa fa-calendar mr-2 text-primary"></i> April 8, 2025
+              </span>
+              <span class="flex items-center">
+                <i class="fa fa-tag mr-2 text-primary"></i> Conference Report
+              </span>
+            </div>
+            
+            <h3 class="text-2xl md:text-3xl font-bold mb-4">Highlights from the 2025 ML4Chemistry Conference</h3>
+            
+            <div class="mb-6">
+              <img src="https://picsum.photos/id/325/800/400" alt="Conference presentation" class="w-full h-64 object-cover rounded-lg shadow-md">
+            </div>
+            
+            <p class="text-gray-700 mb-6 leading-relaxed">
+              Last month, I attended the ML4Chemistry conference in Berlin, which brought together researchers from around the world working at the intersection of machine learning and chemistry. The conference featured exciting developments in several areas, including active learning for autonomous experimentation and graph neural networks for molecular design.
+            </p>
+            
+            <p class="text-gray-700 mb-8 leading-relaxed">
+              I presented our work on "Transfer Learning with Physical Constraints for Reaction Prediction," which generated interesting discussions about balancing physical interpretability with predictive performance. It was particularly encouraging to see increasing interest in methods that go beyond pure prediction to provide chemical insights.
+            </p>
+            
+            <a href="#" class="inline-flex items-center text-primary hover:text-secondary font-medium transition-colors duration-300">
+              Read more <i class="fa fa-long-arrow-right ml-2"></i>
+            </a>
+          </div>
+          
+          <!-- Navigation Buttons -->
+          <button class="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-primary focus:outline-none transition-all duration-300 post-prev">
+            <i class="fa fa-chevron-left"></i>
+          </button>
+          
+          <button class="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-primary focus:outline-none transition-all duration-300 post-next">
+            <i class="fa fa-chevron-right"></i>
+          </button>
+          
+          <!-- Indicators -->
+          <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            <div class="post-indicator active" data-index="0"></div>
+            <div class="post-indicator" data-index="1"></div>
+            <div class="post-indicator" data-index="2"></div>
+          </div>
+        </div>
+        
+        <!-- View All Posts Button -->
+        <div class="mt-12 text-center">
+          <a href="#" class="inline-flex items-center px-8 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+            View All Posts <i class="fa fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-3 gap-10">
+        <div>
+          <h3 class="text-xl font-bold mb-6 flex items-center">
+            <i class="fa fa-flask mr-2 text-primary"></i> Kaile JIANG
+          </h3>
+          <p class="text-gray-400 mb-6">
+            Machine Learning & Physical Chemistry<br>
+            Researcher
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="social-icon w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300">
+              <i class="fa fa-twitter"></i>
+            </a>
+            <a href="#" class="social-icon w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300">
+              <i class="fa fa-linkedin"></i>
+            </a>
+            <a href="#" class="social-icon w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300">
+              <i class="fa fa-google"></i>
+            </a>
+            <a href="#" class="social-icon w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300">
+              <i class="fa fa-github"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+          <ul class="space-y-3">
+            <li><a href="#about" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center">
+              <i class="fa fa-angle-right mr-2 text-primary"></i> About
+            </a></li>
+            <li><a href="#research" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center">
+              <i class="fa fa-angle-right mr-2 text-primary"></i> Research
+            </a></li>
+            <li><a href="#publications" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center">
+              <i class="fa fa-angle-right mr-2 text-primary"></i> Publications
+            </a></li>
+            <li><a href="#posts" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center">
+              <i class="fa fa-angle-right mr-2 text-primary"></i> Posts
+            </a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-6">Resources</h3>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center">
+              <i class="fa fa-file-text-o mr-2 text-primary"></i> CV / Resume
+            </a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center">
+              <i class="fa fa-flask mr-2 text-primary"></i> Research Lab
+            </a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center">
+              <i class="fa fa-book mr-2 text-primary"></i> Course Materials
+            </a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center">
+              <i class="fa fa-database mr-2 text-primary"></i> Data & Code
+            </a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
+        <p>&copy; 2023 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <!-- Back to top button -->
+  <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 hover:bg-primary/90">
+    <i class="fa fa-chevron-up"></i>
+  </button>
+  <!-- JavaScript -->
+  <script>
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('bg-white', 'shadow-md');
+        navbar.classList.remove('bg-transparent');
+        navbar.querySelectorAll('a').forEach(link => {
+          link.classList.remove('text-white');
+          link.classList.add('text-dark');
+        });
+      } else {
+        navbar.classList.remove('bg-white', 'shadow-md');
+        navbar.classList.add('bg-transparent');
+        navbar.querySelectorAll('a').forEach(link => {
+          link.classList.add('text-white');
+          link.classList.remove('text-dark');
+        });
+      }
+    });
+    
+    // Back to top button
+    const backToTopButton = document.getElementById('back-to-top');
+    
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopButton.classList.remove('translate-y-20', 'opacity-0');
+        backToTopButton.classList.add('translate-y-0', 'opacity-100');
+      } else {
+        backToTopButton.classList.add('translate-y-20', 'opacity-0');
+        backToTopButton.classList.remove('translate-y-0', 'opacity-100');
+      }
+    });
+    
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Fade-in animation for elements
+    const fadeElements = document.querySelectorAll('.animate-fade-in');
+    
+    const fadeInObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+          fadeInObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+    
+    fadeElements.forEach(element => {
+      fadeInObserver.observe(element);
+    });
+    
+    // Publication filtering
+    const filterButtons = document.querySelectorAll('.publication-filter');
+    const publicationItems = document.querySelectorAll('.publication-item');
+    
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Update active button
+        filterButtons.forEach(btn => {
+          btn.classList.remove('bg-primary', 'text-white');
+          btn.classList.add('text-dark', 'hover:bg-primary/10');
+        });
+        button.classList.add('bg-primary', 'text-white');
+        button.classList.remove('text-dark', 'hover:bg-primary/10');
+        
+        const filter = button.getAttribute('data-filter');
+        
+        // Filter publications
+        publicationItems.forEach(item => {
+          if (filter === 'all' || item.getAttribute('data-category') === filter) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+    
+    // Add hover effects to elements with the hover-scale class
+    document.querySelectorAll('.hover-scale').forEach(element => {
+      element.addEventListener('mouseenter', () => {
+        element.style.transform = 'scale(1.02)';
+        element.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+      });
+      
+      element.addEventListener('mouseleave', () => {
+        element.style.transform = 'scale(1)';
+        element.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)';
+      });
+    });
+    
+    // Posts slider functionality
+    const postSlides = document.querySelectorAll('.post-slide');
+    const postIndicators = document.querySelectorAll('.post-indicator');
+    const prevButton = document.querySelector('.post-prev');
+    const nextButton = document.querySelector('.post-next');
+    let currentSlide = 0;
+    
+    // Function to show a specific slide
+    function showSlide(index) {
+      // Hide all slides
+      postSlides.forEach(slide => {
+        slide.classList.remove('active');
+      });
+      
+      // Remove active class from all indicators
+      postIndicators.forEach(indicator => {
+        indicator.classList.remove('active');
+      });
+      
+      // Show current slide and activate current indicator
+      postSlides[index].classList.add('active');
+      postIndicators[index].classList.add('active');
+      
+      // Update current slide index
+      currentSlide = index;
+    }
+    
+    // Next slide
+    function nextSlide() {
+      let newIndex = currentSlide + 1;
+      if (newIndex >= postSlides.length) {
+        newIndex = 0;
+      }
+      showSlide(newIndex);
+    }
+    
+    // Previous slide
+    function prevSlide() {
+      let newIndex = currentSlide - 1;
+      if (newIndex < 0) {
+        newIndex = postSlides.length - 1;
+      }
+      showSlide(newIndex);
+    }
+    
+    // Event listeners for navigation buttons
+    nextButton.addEventListener('click', nextSlide);
+    prevButton.addEventListener('click', prevSlide);
+    
+    // Event listeners for indicators
+    postIndicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => {
+        showSlide(index);
+      });
+    });
+    
+    // Auto advance slides every 8 seconds
+    setInterval(nextSlide, 8000);
+  </script>
+</body>
+</html>
+    
