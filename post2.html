@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>词义分歧：什么是描述符？——当机器学习遇到电池催化</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E3A8A',
+                        secondary: '#F1F5F9',
+                        accent: '#2563EB',
+                        neutral: '#64748B',
+                        chemBlue: '#0077B6',
+                        mlPurple: '#7C3AED',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.1);
+            }
+            .table-responsive {
+                overflow-x: auto;
+            }
+            .formula-img {
+                max-width: 100%;
+                height: auto;
+                margin: 1rem auto;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+    <!-- 头部标题区 -->
+    <header class="bg-primary text-white py-10 md:py-16">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                    <div class="mb-4 md:mb-0">
+                        <span class="inline-block bg-accent text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
+                            学术汇报 | 2025.10.09
+                        </span>
+                        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
+                            词义分歧：什么是描述符？
+                        </h1>
+                        <p class="text-xl md:text-2xl font-light opacity-90 mt-2">
+                            ——当机器学习遇到电池催化
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <img src="https://picsum.photos/id/1005/100/100" alt="汇报人头像" class="w-12 h-12 rounded-full border-2 border-white">
+                        <div>
+                            <p class="font-medium">汇报人：姜凯乐</p>
+                            <p class="text-sm opacity-80">机器学习与催化材料交叉研究</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 导航标签 -->
+                <div class="flex flex-wrap gap-2">
+                    <a href="#ml-descriptors" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-md text-sm transition-colors">
+                        机器学习中的描述符
+                    </a>
+                    <a href="#battery-descriptors" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-md text-sm transition-colors">
+                        电池催化中的描述符
+                    </a>
+                    <a href="#summary" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-md text-sm transition-colors">
+                        总结
+                    </a>
+                    <a href="#formulas" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-md text-sm transition-colors">
+                        公式附录
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 md:px-8 py-10">
+        <div class="max-w-4xl mx-auto">
+            <!-- 引言部分 -->
+            <section class="bg-white rounded-xl shadow-sm p-6 md:p-8 mb-10">
+                <h2 class="text-2xl font-bold text-primary mb-4 flex items-center">
+                    <i class="fa fa-info-circle text-accent mr-2"></i>引言：描述符的核心价值
+                </h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    在机器学习与化学、材料科学的交叉领域中，“描述符（Descriptor）”是连接微观结构与宏观性质的关键桥梁。它通过将复杂的分子/反应体系转化为可量化的数值形式，为机器学习算法提供有效输入，最终实现性质预测、催化剂筛选等核心目标。
+                </p>
+                <p class="text-gray-700 leading-relaxed">
+                    本汇报将从“机器学习中的描述符”与“电池催化中的描述符”两大维度，厘清描述符的定义、分类及应用，解决不同领域中描述符的“词义分歧”问题。
+                </p>
+            </section>
+
+            <!-- 第一部分：机器学习中的描述符 -->
+            <section id="ml-descriptors" class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-mlPurple flex items-center justify-center text-white mr-3">
+                        <i class="fa fa-laptop"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-primary">一、机器学习中的描述符</h2>
+                </div>
+
+                <!-- 描述符定义 -->
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 mb-8">
+                    <h3 class="text-xl font-bold text-mlPurple mb-4">1.1 描述符的核心定义</h3>
+                    <div class="bg-secondary rounded-lg p-5 border-l-4 border-mlPurple mb-4">
+                        <p class="text-gray-700 italic leading-relaxed">
+                            “描述符是3D分子几何形状的数值表示（通常以矢量形式），用作ML算法的输入。”
+                            <br><br>
+                            —— Barbatti教授团队，<em>Chem. Sci., 2021, 12, 14396-14413</em>
+                        </p>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">
+                        2021年，马塞大学Barbatti教授团队在《Chemical Science》发表综述，系统评估了分子机器学习势建模的主流模型，并从“描述符类型”和“算法架构”两个维度进行分类：
+                    </p>
+                    <ul class="list-disc pl-6 mt-3 space-y-2 text-gray-700">
+                        <li>描述符类型：全局描述符（Global Descriptors）、局部描述符（Local Descriptors）</li>
+                        <li>算法架构：神经网络（Neural Networks）、核方法（Kernel Methods）</li>
+                        <li>评估指标：模型精度（能量训练/力+能量训练）、构象抽样能力</li>
+                    </ul>
+                </div>
+
+                <!-- 全局描述符 -->
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 mb-8">
+                    <h3 class="text-xl font-bold text-mlPurple mb-4">1.2 全局描述符（Global Descriptors, GD）</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        全局描述符用于描述整个分子的几何与电子特性，包含分子的完整信息，但可能面临“维度膨胀”问题。主流类型如下：
+                    </p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mt-6">
+                        <!-- 库仑矩阵 -->
+                        <div class="bg-secondary rounded-lg p-5 card-hover">
+                            <h4 class="font-bold text-primary mb-3">1. 库仑矩阵（Coulomb Matrix, CM）</h4>
+                            <p class="text-sm text-gray-600 mb-3">来源：<a href="https://arxiv.org/pdf/1109.2618" target="_blank" class="text-accent hover:underline">arXiv:1109.2618 [physics.chem-ph]</a> (Rupp et al., 2011)</p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                库仑矩阵是首个专为分子机器学习设计的全局描述符，旨在编码分子的全部量子化学信息。其构建始于对分子中每个原子对之间相互作用的量化，形成一个N×N的对称矩阵，其中N为分子中的原子总数。
+                            </p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                矩阵的对角元素通过公式计算，反映原子的内在特性；非对角元素则表示原子间的相互作用，模拟库仑相互作用的物理本质。
+                            </p>
+                            <div class="bg-white p-3 rounded text-center mb-3">
+                                <p class="text-sm font-medium mb-1">库仑矩阵表达式</p>
+                                <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/coulomb-matrix.png?raw=true" 
+                                     alt="库仑矩阵公式：对角元素为1/2 Z_I^2.4，非对角元素为Z_I Z_J / |R_I - R_J|" 
+                                     class="formula-img">
+                            </div>
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                构建完成的库仑矩阵包含了分子中所有原子的类型信息（通过原子序数Z）和空间分布信息（通过坐标R）。为解决矩阵对原子编号的依赖性问题，通常会对矩阵进行对角化处理，获取其特征值并按绝对值降序排列，形成与原子编号无关的分子指纹。
+                            </p>
+                        </div>
+
+                        <!-- 逆核间距 -->
+                        <div class="bg-secondary rounded-lg p-5 card-hover">
+                            <h4 class="font-bold text-primary mb-3">2. 逆核间距（Inverse Internuclear Distances, IDs）</h4>
+                            <p class="text-sm text-gray-600 mb-3">来源：<a href="https://arxiv.org/pdf/1109.2618" target="_blank" class="text-accent hover:underline">arXiv:1109.2618</a></p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                逆核间距描述符的构建过程相对直接，首先需要计算分子中所有原子对之间的核间距。对于一个包含N个原子的分子，这意味着需要计算所有可能的原子对（i,j）（其中i < j以避免重复）的空间距离，得到R_ij = |R_i - R_j|，这里R_i和R_j分别表示原子i和j的空间坐标。
+                            </p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                接下来，对每个核间距取倒数，得到1/R_ij，这一步操作的目的是增强近距离原子对的权重，因为在分子结构中，距离较近的原子通常具有更强的相互作用。
+                            </p>
+                            <div class="bg-white p-3 rounded text-center mb-3">
+                                <p class="text-sm font-medium mb-1">逆核间距表达式</p>
+                                <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/inverse-distances.png?raw=true" 
+                                     alt="逆核间距公式：1/R_ij，其中R_ij为原子i和j之间的核间距" 
+                                     class="formula-img">
+                            </div>
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                这种描述符的维度为N(N-1)/2，取决于分子中的原子数量。与库仑矩阵不同，逆核间距描述符不包含原子类型信息，仅反映分子的几何结构特征。
+                            </p>
+                        </div>
+
+                        <!-- 键袋模型 -->
+                        <div class="bg-secondary rounded-lg p-5 card-hover">
+                            <h4 class="font-bold text-primary mb-3">3. 键袋模型（Bag-of-Bonds, BoB）</h4>
+                            <p class="text-sm text-gray-600 mb-3">来源：<a href="https://pubs.acs.org/doi/10.1021/acs.jpclett.5b00831" target="_blank" class="text-accent hover:underline">ACS J. Phys. Chem. Lett., 2015, 6, 23, 4820-4825</a> (Hansen et al.)</p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                键袋模型的构建始于对分子中原子和原子对信息的系统收集与分类。首先，模型提取分子中的单原子项，这些项与库仑矩阵的对角元素相同，即每个原子的Z_i^2.4值，其中Z_i为原子序数，这部分信息反映了分子中各原子的内在特性。
+                            </p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                其次，模型处理原子对项，这是键袋模型的核心部分。对于分子中所有的原子对（i,j），计算其库仑矩阵中的非对角项值，然后根据原子对的类型（如C-C、C-O、O-H等）进行分组。
+                            </p>
+                            <div class="bg-white p-3 rounded text-center mb-3">
+                                <p class="text-sm font-medium mb-1">BoB向量构成</p>
+                                <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/bag-of-bonds.png?raw=true" 
+                                     alt="键袋模型向量构成：[单原子项, 原子对项]" 
+                                     class="formula-img">
+                            </div>
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                为了形成固定维度的描述符，每个原子对类型组中的值会被排序，然后取前K个值（K为预设常数），如果某个类型组中的原子对数量少于K，则用零填充剩余位置。
+                            </p>
+                        </div>
+
+                        <!-- RE描述符 -->
+                        <div class="bg-secondary rounded-lg p-5 card-hover">
+                            <h4 class="font-bold text-primary mb-3">4. 平衡结构归一化描述符（RE）</h4>
+                            <p class="text-sm text-gray-600 mb-3">来源：<a href="https://arxiv.org/pdf/1808.05806" target="_blank" class="text-accent hover:underline">arXiv:1808.05806 [physics.chem-ph]</a> (Unke et al., 2018)</p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                平衡结构归一化描述符的构建始于确定分子的参考平衡结构，这一结构通常通过量子化学计算（如DFT优化）获得，代表分子的最低能量构象。对于该平衡结构，需要预先计算并存储所有原子对（i,j）（i < j）的核间距，记为R_ij^0。
+                            </p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                对于需要表征的任意分子构象，计算该构象中所有对应原子对（i,j）的核间距R_ij，然后计算每个原子对的核间距与平衡结构中对应原子对核间距的绝对偏差。
+                            </p>
+                            <div class="bg-white p-3 rounded text-center mb-3">
+                                <p class="text-sm font-medium mb-1">RE描述符定义</p>
+                                <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/re-descriptor.png?raw=true" 
+                                     alt="平衡结构归一化描述符：{ |R_ij - R_ij^0| | i < j }" 
+                                     class="formula-img">
+                            </div>
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                这种构建方式使得RE描述符能够直接反映分子构象相对于平衡状态的偏离程度，特别适合描述分子的振动、旋转等动态变化。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 局部描述符 -->
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+                    <h3 class="text-xl font-bold text-mlPurple mb-4">1.3 局部描述符（Local Descriptors, LD）</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        局部描述符以原子为中心，编码特定截断半径内的局部化学环境，适用于复杂体系（如固体表面、大分子），但存在“重构依赖”和“超参数敏感”问题。
+                    </p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mt-6">
+                        <!-- ACSF -->
+                        <div class="bg-secondary rounded-lg p-5 card-hover">
+                            <h4 class="font-bold text-primary mb-2">1. 原子中心对称函数（ACSF）</h4>
+                            <p class="text-sm text-gray-600 mb-3">来源：<em>J. Chem. Phys., 2011, 134, 074106</em></p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                通过径向函数（描述原子间距）和角度函数（描述原子间角度），编码中心原子周围的元素类型和几何分布，是分子动力学模拟中常用的描述符。
+                            </p>
+                            <div class="bg-white p-3 rounded text-center">
+                                <p class="text-sm font-medium mb-1">径向ACSF示例</p>
+                                <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/acsf-radial.png?raw=true" 
+                                     alt="径向ACSF公式：G^r_i = Σ e^(-η(R_ij-R_s)²) f_c(R_ij)" 
+                                     class="formula-img">
+                            </div>
+                        </div>
+
+                        <!-- SOAP -->
+                        <div class="bg-secondary rounded-lg p-5 card-hover">
+                            <h4 class="font-bold text-primary mb-2">2. 原子位置平滑重叠（SOAP）</h4>
+                            <p class="text-sm text-gray-600 mb-3">来源：<em>Phys. Rev. B, 2017, 96, 019902</em></p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                将原子密度分布展开为球谐函数和径向基函数的乘积，通过计算不同原子环境的密度重叠度衡量相似性，具有旋转/平移不变性，适用于催化剂表面建模。
+                            </p>
+                            <div class="bg-white p-3 rounded text-center">
+                                <p class="text-sm font-medium mb-1">SOAP相似度公式</p>
+                                <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/soap-similarity.png?raw=true" 
+                                     alt="SOAP相似度公式：S(ρ_i,ρ_j) = ∫ρ_i(r)ρ_j(r)dr" 
+                                     class="formula-img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 第二部分：电池催化中的描述符 -->
+            <section id="battery-descriptors" class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-chemBlue flex items-center justify-center text-white mr-3">
+                        <i class="fa fa-flask"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-primary">二、电池催化/氧化还原反应中的描述符</h2>
+                </div>
+
+                <!-- 反应性描述符定义 -->
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 mb-8">
+                    <h3 class="text-xl font-bold text-chemBlue mb-4">2.1 反应性描述符的核心定义</h3>
+                    <div class="bg-secondary rounded-lg p-5 border-l-4 border-chemBlue mb-4">
+                        <p class="text-gray-700 italic leading-relaxed">
+                            “反应体系性质的可量化标准，这类标准被称为‘描述符’（descriptor），也称作‘反应性描述符’（reactivity descriptor）。准确的描述符可通过催化剂的电子特性与结构特性，描述反应网络中的能量状态，进而表征整个反应的动力学过程。”
+                            <br><br>
+                            —— 国防科技大学团队，<em>Chem. Soc. Rev., 2025, Advance Article</em>
+                        </p>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">
+                        国防科技大学团队在《Chemical Society Reviews》（2025）中，梳理了锂硫电池（Li-S Battery）硫还原反应的反应性描述符，将其分为三大类（电子描述符、结构描述符、能量描述符），实现“高维反应参数→低维描述空间”的降维，降低催化剂筛选的计算成本。
+                    </p>
+                </div>
+
+                <!-- 描述符分类与应用表格 -->
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 mb-8">
+                    <h3 class="text-xl font-bold text-chemBlue mb-4">2.2 反应性描述符的分类与应用</h3>
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        基于锂硫电池催化剂研究，反应性描述符按“关注维度”分类及应用如下表所示（部分典型案例）：
+                    </p>
+
+                    <div class="table-responsive">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-secondary">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">催化剂类型</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">描述符类型</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">关键标准</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">功能（筛选/预测/阐明）</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">参考文献</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <!-- 行1：电子描述符 -->
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">RuO₂、RuO量子点/GDY</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-chemBlue font-medium">电子描述符（d带中心）</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">自由能</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">阐明</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">78</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Co-NC、Ni-NC单原子催化剂</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-chemBlue font-medium">电子描述符（d带中心）</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">结合能</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">预测</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">79</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">S-HGF、N-HGF掺杂石墨烯</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-chemBlue font-medium">电子描述符（p带中心）</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">吸附能</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">筛选</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">81</td>
+                                </tr>
+                                <!-- 行2：结构描述符 -->
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Ti₃C₂O₂、Hf₃C₂O₂（MXenes）</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-neutral font-medium">结构描述符（晶格常数）</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">结合能</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">筛选</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">95</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Sc、Co、Fe单原子催化剂</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-neutral font-medium">结构描述符（Li-S-Li键角）</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">能量壁垒</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">预测</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">96</td>
+                                </tr>
+                                <!-- 行3：能量描述符 -->
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">Fe-N₄、Co-N₄功能化石墨烯</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-accent font-medium">能量描述符（Li₂S吸附能）</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">极限电位</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">筛选</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">102</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">TaCO₂、ZrNO₂（MXenes）</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-accent font-medium">能量描述符（ΔG(LiS*)）</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">过电位</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">筛选</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">100</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-3 text-center">注：表格基于《Chem. Soc. Rev., 2025》整理，“功能”中“筛选”指从候选集中选活性催化剂，“预测”指设计理想催化剂，“阐明”指解释催化活性来源</p>
+                </div>
+
+                <!-- 关键描述符详解 -->
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+                    <h3 class="text-xl font-bold text-chemBlue mb-4">2.3 核心描述符详解</h3>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 mt-6">
+                        <!-- 电子描述符 -->
+                        <div class="bg-secondary rounded-lg p-5">
+                            <h4 class="font-bold text-primary mb-3 flex items-center">
+                                <span class="w-6 h-6 rounded-full bg-chemBlue text-white text-xs flex items-center justify-center mr-2">1</span>
+                                电子描述符
+                            </h4>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                聚焦催化剂的电子结构特性，核心包括：
+                            </p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-2">
+                                <span class="font-medium">d带中心</span>：过渡金属d轨道电子的平均能量，通过d轨道态密度积分计算，d带中心越靠近费米能级，催化剂与锂硫中间体（LiPS）结合越强，需调控至适中强度以平衡吸附与脱附。
+                            </p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-2">
+                                <span class="font-medium">p带中心</span>：C、N、S等非金属元素的p轨道与LiPS分子轨道的杂化程度，用于表征非金属催化剂（如掺杂石墨烯）对LiPS的吸附活性。
+                            </p>
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                其他还包括表面电子亲和能、d电子数、自旋态等，用于细分不同催化剂的电子特性差异。
+                            </p>
+                        </div>
+
+                        <!-- 结构描述符 -->
+                        <div class="bg-secondary rounded-lg p-5">
+                            <h4 class="font-bold text-primary mb-3 flex items-center">
+                                <span class="w-6 h-6 rounded-full bg-chemBlue text-white text-xs flex items-center justify-center mr-2">2</span>
+                                结构描述符
+                            </h4>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                关联催化剂的几何结构与催化性能，核心包括：
+                            </p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-2">
+                                <span class="font-medium">晶格匹配度/晶格常数</span>：催化剂晶格与LiPS的原子间距适配性，匹配度越高，LiPS越易在催化剂表面吸附并发生反应。
+                            </p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-2">
+                                <span class="font-medium">键角/键长</span>：Li-S-Li键角越大、Li-S键长越长，Li₂S分解能垒越低，催化活性越高；催化剂自身的键结构（如金属-氮键长）也影响活性位点稳定性。
+                            </p>
+                        </div>
+
+                        <!-- 能量描述符与体系性质 -->
+                        <div class="bg-secondary rounded-lg p-5">
+                            <h4 class="font-bold text-primary mb-3 flex items-center">
+                                <span class="w-6 h-6 rounded-full bg-chemBlue text-white text-xs flex items-center justify-center mr-2">3</span>
+                                能量描述符与体系性质
+                            </h4>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                量化反应热力学与动力学特性，核心包括：
+                            </p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-2">
+                                <span class="font-medium">吉布斯自由能</span>：火山图分析核心指标，自由能接近0时催化剂活性最高，用于筛选最优催化剂。
+                            </p>
+                            <p class="text-gray-700 text-sm leading-relaxed mb-2">
+                                <span class="font-medium">吸附能/成键能</span>：吸附能是LiPS从溶液到催化剂表面的自由能变化（热力学趋势），成键能是催化剂与LiPS的化学键强度，需适中以确保反应顺利进行。
+                            </p>
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                <span class="font-medium">能垒/活化能</span>：单步反应或整体反应的动力学阻力，能垒越低，反应速率越快；过电位是反应能量损耗壁垒，直接关联催化效率。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 火山图示例 -->
+                    <div class="mt-8">
+                        <h4 class="font-bold text-primary mb-3">2.4 描述符应用：吉布斯自由能火山图</h4>
+                        <div class="bg-secondary rounded-lg p-4">
+                            <img src="https://picsum.photos/id/160/1200/400" alt="吉布斯自由能火山图：催化剂活性与自由能关系" class="w-full h-64 object-cover rounded-md mb-3">
+                            <p class="text-sm text-gray-700 text-center">
+                                吉布斯自由能火山图：横轴为反应中间体（如Li₂S₄）吸附自由能（能量描述符），纵轴为热力学过电位（活性指标），火山顶端对应最优催化剂（自由能接近0，过电位最小）
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 第三部分：总结 -->
+            <section id="summary" class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white mr-3">
+                        <i class="fa fa-bar-chart"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-primary">三、总结</h2>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+                    <!-- 3.1 两类描述符的核心定义与分类 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold text-primary mb-4">3.1 分子描述符与反应性描述符的核心差异</h3>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <!-- 分子描述符（ML领域） -->
+                            <div class="bg-secondary rounded-lg p-5">
+                                <h4 class="font-bold text-mlPurple mb-3">分子描述符（机器学习领域）</h4>
+                                <p class="text-gray-700 leading-relaxed mb-3">
+                                    <span class="font-medium">核心定义</span>：分子几何形状的数值表示（通常为矢量形式），核心功能是为机器学习算法提供输入，实现分子性质（如能量、活性）的预测。
+                                </p>
+                                <p class="text-gray-700 leading-relaxed mb-3">
+                                    <span class="font-medium">分类及特点</span>：
+                                </p>
+                                <p class="text-gray-700 leading-relaxed mb-2">
+                                    1. 全局描述符：包含分子完整信息（如原子类型、空间结构），典型如库仑矩阵（CM）、键袋模型（BoB）、逆核间距（IDs）、平衡结构归一化描述符（RE）；优势是信息完整，劣势是易面临“维度膨胀”（维度随原子数增加而增长）。
+                                </p>
+                                <p class="text-gray-700 leading-relaxed">
+                                    2. 局部描述符：以原子为中心，编码截断半径内的局部化学环境，典型如原子中心对称函数（ACSF）、原子位置平滑重叠（SOAP）；优势是适用于复杂体系（如固体表面、大分子），劣势是存在“重构依赖”（对原子排列敏感）和“超参数敏感”（如截断半径、基函数参数需调试）。
+                                </p>
+                            </div>
+
+                            <!-- 反应性描述符（催化领域） -->
+                            <div class="bg-secondary rounded-lg p-5">
+                                <h4 class="font-bold text-chemBlue mb-3">反应性描述符（电池催化领域）</h4>
+                                <p class="text-gray-700 leading-relaxed mb-3">
+                                    <span class="font-medium">核心定义</span>：反应体系性质的可量化标准，核心功能是通过催化剂的电子、结构特性描述反应网络能量状态，表征反应动力学过程，用于催化剂的筛选、预测与活性阐明。
+                                </p>
+                                <p class="text-gray-700 leading-relaxed mb-3">
+                                    <span class="font-medium">分类及核心指标</span>：
+                                </p>
+                                <p class="text-gray-700 leading-relaxed mb-2">
+                                    1. 电子描述符：聚焦电子结构，如d带中心、p带中心、表面电子亲和能、d电子数等，关联催化剂与中间体的结合强度。
+                                </p>
+                                <p class="text-gray-700 leading-relaxed mb-2">
+                                    2. 结构描述符：聚焦几何结构，如晶格常数/匹配度、Li-S-Li键角、键长等，关联催化剂对中间体的吸附适配性。
+                                </p>
+                                <p class="text-gray-700 leading-relaxed">
+                                    3. 能量描述符与体系性质：聚焦热力学/动力学，如吉布斯自由能、吸附能/成键能、能垒/活化能、过电位等，直接关联催化活性高低。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.2 关键技术补充：库仑矩阵与核岭回归 -->
+                    <div>
+                        <h3 class="text-xl font-bold text-primary mb-4">3.2 关键技术补充：库仑矩阵处理与核岭回归模型</h3>
+                        <!-- 库仑矩阵的原子编号依赖问题与解决 -->
+                        <div class="mb-6">
+                            <h4 class="font-bold text-primary mb-3">（1）库仑矩阵的原子编号依赖与对角化解决方案</h4>
+                            <p class="text-gray-700 leading-relaxed mb-3">
+                                库仑矩阵虽包含分子的完整信息，但存在关键问题：矩阵形式依赖原子的编号顺序——例如交换分子中“原子1”和“原子2”的编号，库仑矩阵的行/列会随之交换，得到不同矩阵，无法直接用于分子相似性比较。
+                            </p>
+                            <p class="text-gray-700 leading-relaxed mb-3">
+                                解决方案是对库仑矩阵进行对角化处理，数学本质为：对对称矩阵M，存在正交矩阵U（满足U^T U = I，I为单位矩阵）和对角矩阵Λ，使得：
+                            </p>
+                            <div class="bg-secondary p-3 rounded text-center mb-3">
+                                <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/coulomb-diagonalization.png?raw=true" 
+                                     alt="库仑矩阵对角化公式：M = UΛU^T" 
+                                     class="formula-img">
+                            </div>
+                            <p class="text-gray-700 leading-relaxed mb-3">
+                                其中，对角矩阵Λ的主对角线元素为库仑矩阵的特征值{ε₁, ε₂, ..., ε_N}，非对角线元素全为0；正交矩阵U的列向量为特征向量（无需关注）。
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                基于特征值的分子相似性度量公式为：
+                            </p>
+                            <div class="bg-secondary p-3 rounded text-center mb-3">
+                                <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/molecular-similarity.png?raw=true" 
+                                     alt="分子相似性度量公式：d(M,M') = √Σ|ε_i - ε'_i|²" 
+                                     class="formula-img">
+                            </div>
+                        </div>
+
+                        <!-- 核岭回归的损失函数与回归系数 -->
+                        <div>
+                            <h4 class="font-bold text-primary mb-3">（2）核岭回归的损失函数与回归系数解析解</h4>
+                            <p class="text-gray-700 leading-relaxed mb-3">
+                                在分子能量预测等任务中，常用核岭回归（Kernel Ridge Regression）模型，核心是通过损失函数优化回归系数α。损失函数包含两部分：预测误差的平方和（确保模型拟合训练数据）与L2正则化项（防止过拟合），公式为：
+                            </p>
+                            <div class="bg-secondary p-3 rounded text-center mb-3">
+                                <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/krr-loss.png?raw=true" 
+                                     alt="核岭回归损失函数：L(α) = ||Kα - E^ref||² + λ||α||²" 
+                                     class="formula-img">
+                            </div>
+                            <p class="text-gray-700 leading-relaxed mb-3">
+                                对损失函数求导并令导数为0，可得回归系数的解析解：
+                            </p>
+                            <div class="bg-secondary p-3 rounded text-center mb-3">
+                                <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/krr-coefficient.png?raw=true" 
+                                     alt="回归系数解析解：α = (K + λI)⁻¹E^ref" 
+                                     class="formula-img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 第四部分：公式附录 -->
+            <section id="formulas" class="mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-neutral flex items-center justify-center text-white mr-3">
+                        <i class="fa fa-calculator"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-primary">四、公式附录</h2>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+                    <!-- 1. 库仑矩阵与对角化 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold text-primary mb-3">4.1 库仑矩阵定义与对角化</h3>
+                        <div class="bg-secondary rounded-lg p-5">
+                            <p class="text-sm font-medium text-gray-700 mb-2">1. 库仑矩阵表达式</p>
+                            <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/coulomb-matrix.png?raw=true" 
+                                 alt="库仑矩阵公式：对角元素为1/2 Z_I^2.4，非对角元素为Z_I Z_J / |R_I - R_J|" 
+                                 class="formula-img mb-4">
+                            
+                            <p class="text-sm font-medium text-gray-700 mb-2">参数说明：</p>
+                            <ul class="list-disc pl-6 text-sm text-gray-700 mb-4 space-y-1">
+                                <li>Z_I, Z_J：原子I、J的原子序数</li>
+                                <li>R_I, R_J：原子I、J的空间坐标</li>
+                                <li>I=J：对角项（原子内在特性），I≠J：非对角项（原子间库仑相互作用）</li>
+                            </ul>
+
+                            <p class="text-sm font-medium text-gray-700 mb-2">2. 对角化公式</p>
+                            <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/coulomb-diagonalization.png?raw=true" 
+                                 alt="库仑矩阵对角化公式：M = UΛU^T" 
+                                 class="formula-img mb-4">
+                            
+                            <p class="text-sm font-medium text-gray-700 mb-2">3. 分子相似性度量（特征值欧氏距离）</p>
+                            <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/molecular-similarity.png?raw=true" 
+                                 alt="分子相似性度量公式：d(M,M') = √Σ|ε_i - ε'_i|²" 
+                                 class="formula-img">
+                        </div>
+                    </div>
+
+                    <!-- 2. 核岭回归损失函数与回归系数 -->
+                    <div>
+                        <h3 class="text-xl font-bold text-primary mb-3">4.2 核岭回归（KRR）损失函数与回归系数</h3>
+                        <div class="bg-secondary rounded-lg p-5">
+                            <p class="text-sm font-medium text-gray-700 mb-2">1. 损失函数（含L2正则化）</p>
+                            <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/krr-loss.png?raw=true" 
+                                 alt="核岭回归损失函数：L(α) = ||Kα - E^ref||² + λ||α||²" 
+                                 class="formula-img mb-4">
+                            
+                            <p class="text-sm font-medium text-gray-700 mb-2">参数说明：</p>
+                            <ul class="list-disc pl-6 text-sm text-gray-700 mb-4 space-y-1">
+                                <li>K：核矩阵（K_ij = exp[-d(M_i,M_j)²/(2σ²)]）</li>
+                                <li>α：回归系数（模型参数）</li>
+                                <li>E^ref：参考能量向量（真实值）</li>
+                                <li>λ：正则化参数（防过拟合）</li>
+                            </ul>
+
+                            <p class="text-sm font-medium text-gray-700 mb-2">2. 回归系数解析解</p>
+                            <img src="https://github.com/your-username/your-repo/blob/main/images/formulas/krr-coefficient.png?raw=true" 
+                                 alt="回归系数解析解：α = (K + λI)⁻¹E^ref" 
+                                 class="formula-img">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-primary text-white py-8">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="max-w-4xl mx-auto text-center">
+                <p class="text-sm opacity-80 mb-2">基于姜凯乐2025.10.09学术汇报PPT整理</p>
+                <p class="text-xs opacity-60">
+                    参考文献：Barbatti et al. Chem. Sci. 2021; 国防科技大学团队 Chem. Soc. Rev. 2025; Rupp et al. arXiv:1109.2618; Hansen et al. ACS J. Phys. Chem. Lett. 2015; Unke et al. arXiv:1808.05806; 及相关领域文献
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 平滑滚动脚本 -->
+    <script>
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('py-6');
+                header.classList.remove('py-10', 'md:py-16');
+            } else {
+                header.classList.add('py-10', 'md:py-16');
+                header.classList.remove('py-6');
+            }
+        });
+
+        // 检查图片加载状态
+        document.addEventListener('DOMContentLoaded', function() {
+            const formulaImages = document.querySelectorAll('.formula-img');
+            formulaImages.forEach(img => {
+                // 替换占位用户名和仓库名提示
+                if (img.src.includes('your-username/your-repo')) {
+                    console.warn('请将图片链接中的 "your-username/your-repo" 替换为实际的GitHub仓库路径');
+                }
+                
+                img.addEventListener('error', function() {
+                    this.alt = '公式图片加载失败: ' + this.alt;
+                    this.style.border = '2px dashed red';
+                    this.style.backgroundColor = '#fff3cd';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+    
