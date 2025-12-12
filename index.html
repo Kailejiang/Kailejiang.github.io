@@ -212,9 +212,18 @@
     </div>
   </header>
   <!-- Hero Section -->
-  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+	<section class="relative h-screen flex items-center justify-center overflow-hidden">
     <div class="absolute inset-0 z-0">
-      <div class="absolute inset-0 bg-dark/70"></div>
+      <!-- 背景图片 + 半透明遮罩层 -->
+      <div 
+        class="absolute inset-0 bg-dark/70"
+        style="
+          background-image: url('https://kailejiang.github.io/BACKGROUND.png');
+          background-size: cover; /* 图片全屏覆盖，保持比例不拉伸 */
+          background-position: center; /* 图片居中显示，避免关键区域裁剪 */
+          background-repeat: no-repeat; /* 禁止图片重复平铺 */
+        "
+      ></div>
     </div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
